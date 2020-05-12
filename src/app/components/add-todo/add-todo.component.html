@@ -1,0 +1,40 @@
+<div class="add">
+  <div (click)="isAdd=false" class="add__title" *ngIf="isAdd; else addForm">
+    <mat-icon>add_circle_outline</mat-icon>
+    <h3>Add Your Todo</h3>
+  </div>
+
+  <ng-template #addForm>
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field class="form__wrapper">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Ann" [(ngModel)]="todo.author" name="author" formControlName="name" required>
+        <mat-error *ngIf="isFieldValid('name')">
+          <span *ngIf="form.get('name').errors.required">Name cant be empty</span>
+          <span *ngIf="form.get('name').errors.minlength">
+            Unvalid name(too short). Need at least {{form.get('name').errors.minlength.requiredLength}} symbols.
+          </span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form__wrapper">
+        <mat-label>Todo</mat-label>
+        <input matInput placeholder="Go to shop" [(ngModel)]="todo.todoDescription" formControlName="todo" required>
+        <mat-error *ngIf="isFieldValid('todo')">
+          <span *ngIf="form.get('todo').errors.required">Todo cant be empty</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form__wrapper">
+        <mat-label>Choose a deadline</mat-label>
+        <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="deadline" [(ngModel)]="todo.deadline"
+          name="deadline">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button type="submit" [disabled]="form.invalid" mat-raised-button color="primary">Add todo</button>
+      <mat-icon (click)="isAdd=true">close</mat-icon>
+    </form>
+  </ng-template>
+
+</div>

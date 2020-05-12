@@ -1,0 +1,15 @@
+@import "../../../styles.scss";
+
+.add{
+  padding: 2rem 0;
+  @include flex-center;
+  flex-direction: column;
+
+  &__title{
+    @include flex-center;
+  }
+}
+
+.form__wrapper {
+  margin: 0 1rem;
+}

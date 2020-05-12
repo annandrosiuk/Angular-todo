@@ -1,0 +1,31 @@
+@import "./styleSettings/reset";
+@import "./styleSettings/fonts";
+@import "./styleSettings/variables";
+@import "./styleSettings/keyframes";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.button{
+  padding: 1rem 3rem;
+  margin: 1rem .5rem;
+  font-size: $f16;
+  border-radius: 3rem;
+  font-family: $lt;
+  background-color: $red;
+  color: $white;
+  transition: all .3s ease-in-out;
+
+  &:disabled{
+    background-color: rgba($color: $dark-grey, $alpha: .6);
+  }
+
+  &:active,
+  &:focus{
+    outline: none;
+  }
+
+  &:hover{
+    background-color: rgba($color: $red, $alpha: .7);
+  }
+}

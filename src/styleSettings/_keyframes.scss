@@ -1,0 +1,26 @@
+//Mixins
+@mixin basic($height, $width) {
+  height: $height;
+  width: $width;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin dis-flex($justify-content, $align-items) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+//Animation
+@keyframes shadow-pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba($color: $red, $alpha: .4);
+  }
+  100% {
+    box-shadow: 0 0 0 35px rgba($color: $red, $alpha: 0);
+  }
+}

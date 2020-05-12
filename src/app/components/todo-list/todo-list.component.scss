@@ -1,0 +1,61 @@
+@import "../../../styles.scss";
+
+.active{
+  background-color: rgba($color: #673BB7, $alpha: .8);
+  color: #fff;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.mat-button-toggle-checked{
+  background-color: rgba($color: #673BB7, $alpha: .8);
+  color: #fff;
+}
+
+.example-card {
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.filters{
+  @include dis-flex(space-around, flex-start);
+  padding: 2rem 0;
+  background-color: rgba($color: $light, $alpha: .3) ;
+
+  &__wrapper{
+    @include dis-flex(flex-end, flex-end);
+    flex-direction: column;
+
+    &--end{
+      align-items: flex-end;
+    }
+    &--start{
+      align-items: flex-start;
+    }
+  }
+
+  &__remain{
+    margin: 2rem;
+  }
+}
+
+.form__wrapper {
+  margin: 0 1rem;
+}
+
+.time{
+  @include dis-flex(flex-start, flex-start);
+  
+  &__wrapper{
+    @include flex-center;
+    flex-direction: column;
+    margin: 0 2rem;
+  }
+
+  &__title{
+    font-size: $f10;
+    color: $light-grey;
+  }
+}

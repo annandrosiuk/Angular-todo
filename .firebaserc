@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "todo-list-28049": {
+      "hosting": {
+        "todolist": [
+          "todo-list-28049"
+        ]
+      }
+    }
+  }
+}

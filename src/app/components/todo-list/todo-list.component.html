@@ -1,0 +1,106 @@
+<div *ngIf="todos?.length > 0; else noTodos">
+  <mat-divider></mat-divider>
+  <div class="filters">
+    <div class="filters__wrapper filters__wrapper--start">
+      <mat-form-field>
+        <mat-label>Search here</mat-label>
+        <input matInput placeholder="todo" [(ngModel)]="searchText">
+      </mat-form-field>
+      <mat-checkbox (change)="checkAll()" [checked]="allCompleted()">Check All</mat-checkbox>
+    </div>
+
+    <div class="filters__wrapper filters__wrapper--end">
+      <div>
+        <mat-form-field class="form__wrapper">
+          <mat-label>Sort by</mat-label>
+          <select matNativeControl (change)="sortByCategories($event)">
+            <option value="author">Author</option>
+            <option value="todoDescription">Description</option>
+            <option value="dateOfCreate"> Date</option>
+            <option value="deadline"> Deadline</option>
+            <option value="completed"> Completed</option>
+          </select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Priority</mat-label>
+          <select matNativeControl (change)="sortByPriority($event)">
+            <option value="asc">lower -> higher</option>
+            <option value="desc">higher -> lower</option>
+          </select>
+        </mat-form-field>
+      </div>
+      <div>
+        <span class="filters__remain" matBadge="{{remaining()}}" matBadgeOverlap="false">Todos left</span>
+
+        <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style">
+          <mat-button-toggle value="bold" [ngClass]="{'active' : filter === 'all'}" (click)="filter='all'">All
+          </mat-button-toggle>
+          <mat-button-toggle value="italic" [ngClass]="{'active' : filter === 'active'}" (click)="filter='active'">
+            Active
+          </mat-button-toggle>
+          <mat-button-toggle value="underline" [ngClass]="{'active' : filter === 'completed'}"
+            (click)="filter='completed'">
+            Completed</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+
+  <mat-card class="example-card" *ngFor="let todo of todosFiltered() | sort:sortPriorVal:sortVal | search: searchText">
+    <ng-template #showTodo>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-checkbox [(ngModel)]="todo.completed" (change)="doneEdit(todo)"></mat-checkbox>
+        </div>
+        <mat-card-title [class.completed]="todo.completed">{{todo.todoDescription | titlecase}}</mat-card-title><br>
+        <mat-card-subtitle>{{todo.author | titlecase}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-footer class="time">
+        <div class="time__wrapper">
+          <span class="time__title">Created:</span>
+          <span class="time__date">{{todo.dateOfCreate | date}}</span>
+        </div>
+        <div class="time__wrapper">
+          <span class="time__title">Deadline:</span>
+          <span class="time__date">{{todo.deadline.seconds * 1000 | date }}</span>
+        </div>
+      </mat-card-footer>
+    </ng-template>
+
+    <div *ngIf="editState && todoToEdit.id == todo.id; else showTodo">
+      <form (ngSubmit)="updateItem(todo)" class="form">
+        <mat-form-field class="form__wrapper">
+          <mat-label>Author</mat-label>
+          <input matInput [(ngModel)]="todo.author" name="author">
+        </mat-form-field>
+
+        <mat-form-field class="form__wrapper">
+          <mat-label>Todo</mat-label>
+          <input matInput [(ngModel)]="todo.todoDescription" name="todo">
+        </mat-form-field>
+
+        <mat-form-field class="form__wrapper">
+          <mat-label>Deadline</mat-label>
+          <input matInput [matDatepicker]="picker" [min]="minDate" [(ngModel)]="todo.deadline" name="deadline">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <br>
+        <button type="submit" mat-raised-button color="primary">Update</button>
+      </form>
+    </div>
+    <mat-card-actions align="end">
+      <ng-template #showPen>
+        <mat-icon (click)="editTodo($event, todo)">create_outline</mat-icon>
+      </ng-template>
+      <mat-icon *ngIf="editState && todoToEdit.id == todo.id; else showPen" (click)="clearState()">close</mat-icon>
+      <mat-icon (click)="deleteTodo($event, todo)">delete_outline</mat-icon>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
+<ng-template #noTodos>
+  <p>Nothing for todo today</p>
+</ng-template>
